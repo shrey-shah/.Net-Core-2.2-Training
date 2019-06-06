@@ -19,30 +19,42 @@ namespace CoreApp1.Controllers
             this.courseService = courseService;
         }
 
+        [HttpGet]
         public IActionResult Get()
         {
             var courses = courseService.GetAsync().Result;
             return Ok(courses);
         }
 
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var courses = courseService.GetAsync(id).Result;
             return Ok(courses);
         }
 
-        public IActionResult Post(Course course)
+        [HttpPost]
+        public IActionResult Post([FromBody]Course course)
         {
-            var courses = courseService.CreateAsync(course).Result;
-            return Ok(courses);
+            if(ModelState.IsValid)
+            {
+                var courses = courseService.CreateAsync(course).Result;
+                return Ok(courses);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
+        [HttpPut("{id}")]
         public IActionResult Put(int id, Course course)
         {
             var courses = courseService.UpdateAsync(id,course).Result;
             return Ok(courses);
         }
 
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             var result = courseService.DeleteAsync(id).Result;

@@ -14,8 +14,23 @@ namespace CoreApp1.Models
         public string CourseId { get; set; }
         [Required(ErrorMessage = "Course Name is Required.")]
         public string CourseName { get; set; }
-        [Required(ErrorMessage = "Capacity is Required.")]
+        [CustomValidatorAttribute(ErrorMessage = "Capacity must be greater than 0.")]
         public int Capacity { get; set; }
+    }
+
+    public class CustomValidatorAttribute: ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if(Convert.ToInt32(value) <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 
 }

@@ -56,7 +56,10 @@ namespace CoreApp1.Services
             var res = await ctx.Courses.FindAsync(id);
             if (res != null)
             {
-                res = entity;
+                res.CourseId = entity.CourseId;
+                res.CourseName = entity.CourseName;
+                res.Capacity = entity.Capacity;
+                ctx.Courses.Update(res);
                 await ctx.SaveChangesAsync();
             }
             return res;
