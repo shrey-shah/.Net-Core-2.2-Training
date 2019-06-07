@@ -10,11 +10,11 @@ namespace CoreApp1.Models
     {
         [Key]
         public int CourseRowId { get; set; }
-        [Required(ErrorMessage ="Course Id is Required.")]
+        //[Required(ErrorMessage ="Course Id is Required.")]
         public string CourseId { get; set; }
-        [Required(ErrorMessage = "Course Name is Required.")]
+      //  [Required(ErrorMessage = "Course Name is Required.")]
         public string CourseName { get; set; }
-        [CustomValidatorAttribute(ErrorMessage = "Capacity must be greater than 0.")]
+     //   [CustomValidatorAttribute(ErrorMessage = "Capacity must be greater than 0.")]
         public int Capacity { get; set; }
     }
 

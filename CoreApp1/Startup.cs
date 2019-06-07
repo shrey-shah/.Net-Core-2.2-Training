@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using CoreApp1.Middlewares;
 
 namespace CoreApp1
 {
@@ -45,6 +46,7 @@ namespace CoreApp1
                 app.UseDeveloperExceptionPage();
             }
 
+            app.CustomExceptionHandlerMiddleware();
             app.UseMvc();
         }
     }

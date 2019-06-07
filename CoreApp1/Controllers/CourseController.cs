@@ -38,8 +38,15 @@ namespace CoreApp1.Controllers
         {
             if(ModelState.IsValid)
             {
-                var courses = courseService.CreateAsync(course).Result;
-                return Ok(courses);
+                if (ValidateFields(course))
+                {
+                    var courses = courseService.CreateAsync(course).Result;
+                    return Ok(courses);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             else
             {
@@ -50,8 +57,15 @@ namespace CoreApp1.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Course course)
         {
-            var courses = courseService.UpdateAsync(id,course).Result;
-            return Ok(courses);
+            if (ValidateFields(course))
+            {
+                var courses = courseService.UpdateAsync(id, course).Result;
+                return Ok(courses);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpDelete("{id}")]
@@ -59,6 +73,33 @@ namespace CoreApp1.Controllers
         {
             var result = courseService.DeleteAsync(id).Result;
             return Ok(result);
+        }
+
+        public bool ValidateFields(Course course)
+        {
+            string ErrorMessage = String.Empty;
+
+            if (course.Capacity < 0)
+            {
+                ErrorMessage += "Capacity can't be negative!! ";
+            }
+            if (String.IsNullOrWhiteSpace(course.CourseId))
+            {
+                ErrorMessage += "CourseId is required!! ";
+            }
+            if (String.IsNullOrWhiteSpace(course.CourseName))
+            {
+                ErrorMessage += "CourseName is required!! ";
+            }
+
+            if(!String.IsNullOrWhiteSpace(ErrorMessage))
+            {
+                throw new Exception(ErrorMessage);
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
